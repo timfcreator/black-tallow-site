@@ -1,2 +1,47 @@
-{#- Chunk 2 fills the footer: contact email, social links, the company line, ABN, the privacy link. -#}
-<footer class="site-footer"></footer>
+{#- The footer on every page. Each line appears only when its value is set in site.json; under `npm start`
+    an empty value shows as a TODO instead. -#}
+{%- import "macros.njk" as ui -%}
+{%- set serve = eleventy.env.runMode == "serve" -%}
+{%- set links = [
+  { label: "Discord", url: site.discordInvite },
+  { label: "Bluesky", url: site.social.bluesky },
+  { label: "YouTube", url: site.social.youtube },
+  { label: "Reddit", url: site.social.reddit },
+  { label: "itch.io", url: site.social.itch },
+  { label: "Steam", url: site.steamUrl }
+] -%}
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <nav class="site-footer__nav" aria-label="Footer">
+      <ul class="inline-list" role="list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/devlog/">Devlog</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+      </ul>
+    </nav>
+
+    {%- set present = [] %}
+    {%- for l in links %}{% if l.url %}{% set present = (present.push(l), present) %}{% endif %}{% endfor %}
+    {%- if present.length %}
+    <ul class="inline-list site-footer__social" role="list" aria-label="Elsewhere">
+      {%- for l in present %}
+      <li><a href="{{ l.url }}">{{ l.label }}</a></li>
+      {%- endfor %}
+    </ul>
+    {%- elif serve %}
+    <p>{{ ui.todo("social") }} (Bluesky, YouTube, Reddit, itch), <code>discordInvite</code> and <code>steamUrl</code></p>
+    {%- endif %}
+
+    {%- if site.contactEmail %}
+    <p>Contact: <a href="mailto:{{ site.contactEmail }}">{{ site.contactEmail }}</a></p>
+    {%- elif serve %}
+    <p>{{ ui.todo("contactEmail") }}</p>
+    {%- endif %}
+
+    {%- if site.companyName %}
+    <p>{{ site.name }} is made by {{ site.companyName }}.{% if site.abn %} ABN {{ site.abn }}{% endif %}</p>
+    {%- elif serve %}
+    <p>{{ ui.todo("companyName") }} and <code>abn</code></p>
+    {%- endif %}
+  </div>
+</footer>

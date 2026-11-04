@@ -2,9 +2,119 @@
 layout: layouts/base.njk
 hideHeader: true
 ---
-{#- Chunk 1: an empty home page that proves the build, the font and the art. Chunk 2 builds the real one. -#}
-{%- set wm = images.wordmark[0] %}
-<div class="wrap" style="padding-block: 6rem; display: grid; justify-items: center; gap: 2rem; text-align: center;">
-  <h1 style="width: 100%;"><img src="{{ wm.src }}" width="{{ wm.width }}" height="{{ wm.height }}" alt="Black Tallow" style="width: min(100%, 26rem); margin-inline: auto;"></h1>
-  <p class="label">{{ site.tagline }}</p>
-</div>
+{%- import "macros.njk" as ui -%}
+{%- set serve = eleventy.env.runMode == "serve" -%}
+{%- set wide = images["hero-wide"] -%}
+{%- set tall = images["hero-stacked"] -%}
+
+{#- ---------- Hero ---------- -#}
+<section class="hero">
+  <h1 class="hero__title">
+    <picture class="hero__art">
+      <source media="(min-width: 48rem)"
+        srcset="{{ wide[0].src }} {{ wide[0].width }}w, {{ wide[1].src }} {{ wide[1].width }}w"
+        sizes="(min-width: 79rem) 75rem, calc(100vw - 4rem)"
+        width="{{ wide[1].width }}" height="{{ wide[1].height }}">
+      <img src="{{ tall[0].src }}"
+        srcset="{{ tall[0].src }} {{ tall[0].width }}w, {{ tall[1].src }} {{ tall[1].width }}w"
+        sizes="(min-width: 32rem) 30rem, calc(100vw - 2rem)"
+        width="{{ tall[1].width }}" height="{{ tall[1].height }}"
+        alt="Black Tallow" fetchpriority="high">
+    </picture>
+  </h1>
+  <p class="hero__tagline">{{ site.tagline }}</p>
+  {#- The first button present is the primary (solid) one: Steam, else Discord, else email. #}
+  {%- if site.steamUrl or site.discordInvite or email.action or serve %}
+  <div class="hero__actions">
+    {%- if site.steamUrl %}
+    <a class="btn btn--primary" href="{{ site.steamUrl }}">Wishlist on Steam</a>
+    {%- endif %}
+    {%- if site.discordInvite %}
+    <a class="btn {{ 'btn--secondary' if site.steamUrl else 'btn--primary' }}" href="{{ site.discordInvite }}">Join the Discord</a>
+    {%- elif serve %}
+    {{ ui.todoButton("Join the Discord", "discordInvite") }}
+    {%- endif %}
+    {%- if email.action %}
+    <a class="btn {{ 'btn--secondary' if (site.steamUrl or site.discordInvite) else 'btn--primary' }}" href="#signup">Get updates by email</a>
+    {%- elif serve %}
+    {{ ui.todoButton("Get updates by email", "emailFormAction") }}
+    {%- endif %}
+  </div>
+  {%- endif %}
+</section>
+
+{#- ---------- The pitch (the user's text, as written) ---------- -#}
+<section class="pitch wrap">
+  <p>Roll a character, load the cart and take your party down into the dark. Fight with real blades, take what you can carry, and decide what to do when you meet another party. Characters die for good. The cart rolls on.</p>
+</section>
+
+{#- ---------- Four blocks. Text only for now; pass a media object as the third argument to add a still
+     or a looping clip (see macros.njk). ---------- -#}
+<section class="features wrap" aria-label="The game">
+  {% call ui.feature("cart", "The cart") %}
+  <!-- DRAFT -->
+  <p>Your character can die for good. The cart, and what you stashed in it, survives. Every delve starts with the same question: what do you take down?</p>
+  {% endcall %}
+  {% call ui.feature("character", "A character you rolled") %}
+  <!-- DRAFT -->
+  <p>Roll the stats, then choose race, class, background and burdens. A character sheet you made, for someone who might not come back.</p>
+  {% endcall %}
+  {% call ui.feature("blades", "Real blades") %}
+  <!-- DRAFT -->
+  <p>Directional melee against the things in the dark. Where your swing lands is where it hits.</p>
+  {% endcall %}
+  {% call ui.feature("map", "The map") %}
+  <!-- DRAFT -->
+  <p>Cross a world written like an old module, then descend beneath a ruined castle. Other parties are down there too.</p>
+  {% endcall %}
+</section>
+
+{#- ---------- Devlog: the three latest posts. A build with no posts leaves the section out. ---------- -#}
+{%- set latest = collections.posts | head(3) %}
+{%- if latest.length or serve %}
+<section class="devlog-teaser wrap wrap--narrow" aria-labelledby="devlog-heading">
+  <h2 id="devlog-heading">Devlog</h2>
+  {%- if latest.length %}
+  <ol class="post-list" role="list">
+    {%- for post in latest %}
+    <li class="post-list__item">
+      <h3 class="post-list__title"><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+      <p class="post-list__date"><time datetime="{{ post.date | isoDate }}">{{ post.date | readableDate }}</time>{% if post.data.draft %} <span class="todo">draft, hidden in the build</span>{% endif %}</p>
+      <p>{{ post.data.summary }}</p>
+    </li>
+    {%- endfor %}
+  </ol>
+  <p class="devlog-teaser__all"><a href="/devlog/">All posts</a></p>
+  {%- else %}
+  <p class="todo-text">No posts yet: under <code>npm start</code> only. A build leaves this section out until the first post.</p>
+  {%- endif %}
+</section>
+{%- endif %}
+
+{#- ---------- Email signup. The provider and field name come from the form address (src/_data/email.js). ---------- -#}
+{%- if email.action or serve %}
+<section class="signup wrap wrap--narrow" id="signup" aria-labelledby="signup-heading">
+  <h2 id="signup-heading">Get updates by email</h2>
+  {%- if not email.action %}
+  <p>{{ ui.todo("emailFormAction") }}: your Buttondown or Kit form address. The form below is a preview.</p>
+  {%- endif %}
+  <form class="signup__form" action="{{ email.action or '#signup' }}" method="post">
+    {%- for h in email.hidden %}
+    <input type="hidden" name="{{ h.name }}" value="{{ h.value }}">
+    {%- endfor %}
+    <label class="label" for="signup-email">Email address</label>
+    <div class="signup__row">
+      <input id="signup-email" type="email" name="{{ email.field }}" autocomplete="email" required{% if not email.action %} disabled{% endif %}>
+      <button class="btn btn--primary" type="submit"{% if not email.action %} disabled{% endif %}>Sign up</button>
+    </div>
+    <p class="hint">You can unsubscribe from any email. <a href="/privacy/">Privacy note</a></p>
+  </form>
+</section>
+{%- endif %}
+
+{#- ---------- About ---------- -#}
+<section class="about wrap wrap--narrow" aria-labelledby="about-heading">
+  <h2 id="about-heading">About</h2>
+  <!-- TODO: user writes this -->
+  <p class="todo-text">TODO: a paragraph on who makes Black Tallow, that it is made in Australia, and that it is in development.</p>
+</section>

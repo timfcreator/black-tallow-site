@@ -19,11 +19,12 @@
   --label: #9a9a9a;    /* small-caps labels (the guide's subheading grey): 7.5:1 */
   --hint: #8a8a8a;     /* dates and captions (the guide's hint grey): 6.1:1 */
   --rule: #2e2e2e;     /* hairlines; decoration only, never text */
+  --field: #0e0e0e;    /* form field fill */
+  --todo: #f2b84b;     /* TODO markers, shown only under `npm start` */
 
   --font: "Montserrat", "Segoe UI", Arial, sans-serif;
-  --measure: 38rem;    /* a comfortable line length for reading */
   --gutter: 1rem;      /* 16 px side gutter on phones */
-  --space: clamp(4rem, 12vw, 9rem);  /* the empty space between home sections */
+  --space: clamp(5rem, 14vw, 10rem);  /* the empty space between home sections */
 }
 
 /* ---- reset ---- */
@@ -35,8 +36,13 @@ input, button, textarea, select { font: inherit; color: inherit; }
 
 /* ---- base ---- */
 html { background: var(--bg); color-scheme: dark; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
 body {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font);
@@ -46,18 +52,20 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
+main { flex: 1; }
 strong, b { font-weight: 600; color: var(--ink); }
+code { font-family: Consolas, "Courier New", monospace; font-size: 0.9em; }
 
 /* Headings: spaced capitals, white. Sizes stay modest; the art is the loud thing on the page. */
 h1, h2, h3, h4 {
   color: var(--ink);
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 1.3;
   text-transform: uppercase;
   letter-spacing: 0.16em;
 }
 h1 { font-size: 1.5rem; }
-h2 { font-size: 1.125rem; }
+h2 { font-size: 1.0625rem; }
 h3 { font-size: 1rem; }
 
 /* A small-caps label: the style guide's subheading role. */
@@ -67,6 +75,8 @@ h3 { font-size: 1rem; }
   text-transform: uppercase;
   letter-spacing: 0.2em;
 }
+.hint { color: var(--hint); font-size: 0.875rem; }
+.muted { color: var(--hint); }
 
 /* Links are underlined everywhere, so they never depend on colour or hover to be found. */
 a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
@@ -74,7 +84,7 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* One visible focus style for everything that takes focus. */
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-main:focus { outline: none; }  /* the skip link's target, focused by script-free anchor jump */
+main:focus { outline: none; }  /* the skip link's target */
 
 /* ---- skip link ---- */
 .skip-link {
@@ -97,7 +107,48 @@ main:focus { outline: none; }  /* the skip link's target, focused by script-free
   overflow: hidden; clip: rect(0 0 0 0);
   white-space: nowrap; border: 0;
 }
-.wrap { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: var(--gutter); }
+.wrap { width: 100%; max-width: 64rem; margin-inline: auto; padding-inline: var(--gutter); }
+/* Narrow sections keep the page's left edge (shared with the four blocks and the footer) and only
+   narrow their content to a reading measure. */
+.wrap--narrow > * { max-width: 38rem; }
+.inline-list { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; padding: 0; list-style: none; }
+
+/* TODO markers: dashed amber, so nothing unfinished can pass for finished. */
+.todo, .todo-text {
+  color: var(--todo);
+  border: 1px dashed var(--todo);
+  padding: 0.1em 0.4em;
+}
+.todo code, .btn--todo code { color: inherit; }
+.todo-text { display: block; padding: 0.75rem 1rem; }
+
+/* ---- buttons ----
+   Solid white for the main call, outlined white for the others: both read as buttons on black
+   without hover. At least 48 px tall for thumbs. */
+.btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  min-height: 3rem;
+  padding: 0.8rem 1.75rem;
+  border: 2px solid var(--ink);
+  font-size: 0.875rem;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn--primary { background: var(--ink); color: var(--bg); }
+.btn--primary:hover { background: #d4d4d4; border-color: #d4d4d4; }
+.btn--secondary { background: transparent; color: var(--ink); }
+.btn--secondary:hover { background: var(--ink); color: var(--bg); }
+.btn:disabled { cursor: not-allowed; opacity: 0.5; }
+.btn--todo { border-style: dashed; border-color: var(--todo); color: var(--todo); cursor: default; }
+.btn--todo small { font-size: 0.6875rem; letter-spacing: 0.05em; text-transform: none; }
 
 /* ---- site header (every page but home) ---- */
 .site-header {
@@ -106,17 +157,124 @@ main:focus { outline: none; }  /* the skip link's target, focused by script-free
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  max-width: 72rem;
+  width: 100%;
+  max-width: 64rem;
   margin-inline: auto;
   padding: 1.5rem var(--gutter);
 }
 .site-header__home { display: block; text-decoration: none; }
 .site-header__home img { width: 10rem; }
-.site-header__nav a {
+.site-header__nav a { text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.875rem; }
+
+/* ---- home: hero ---- */
+.hero {
+  display: grid;
+  justify-items: center;
+  gap: 1.5rem;
+  padding: 2.5rem var(--gutter) 0;
+  text-align: center;
+}
+.hero__title { width: 100%; }
+.hero__art {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+.hero__art img {
+  width: auto;
+  max-width: min(100%, 30rem);
+  max-height: 72vh;
+  margin-inline: auto;
+}
+/* The one texture: a fine grain over the art. Overlay blending leaves pure black untouched, so it only
+   shows on the candle's light and never on any text. */
+.hero__art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1.4 -0.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.55;
+}
+.hero__tagline {
+  color: var(--ink);
+  font-size: 0.9375rem;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.24em;
+}
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  width: 100%;
+  max-width: 22rem;
+}
+
+/* ---- home: pitch ---- */
+.pitch {
+  max-width: calc(40rem + 2 * var(--gutter));
+  margin-top: var(--space);
+  text-align: center;
+}
+.pitch p {
+  color: var(--ink);
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+/* ---- home: the four blocks ----
+   Text-only blocks sit in a grid (two across on wider screens). A block given an image spans the full
+   width, image beside text, and alternates sides. */
+.features {
+  display: grid;
+  gap: 3.5rem;
+  margin-top: var(--space);
+}
+.feature { border-top: 1px solid var(--rule); padding-top: 1.5rem; }
+.feature h2 { margin-bottom: 0.75rem; }
+.feature p { max-width: 34rem; }
+.feature__media img, .feature__media video { display: block; width: 100%; height: auto; }
+.feature--media { display: grid; gap: 1.5rem; }
+/* A clip and its still: the clip shows, unless the reader has asked for reduced motion. */
+.feature__still { display: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .feature__video { display: none !important; }
+  .feature__still { display: block !important; }
+}
+
+/* ---- home: devlog, signup, about ---- */
+.devlog-teaser, .signup, .about { margin-top: var(--space); }
+.devlog-teaser h2, .signup h2, .about h2 { margin-bottom: 1.5rem; }
+.post-list { display: grid; gap: 2rem; padding: 0; list-style: none; }
+.post-list__title { font-size: 1rem; letter-spacing: 0.1em; }
+.post-list__date { color: var(--hint); font-size: 0.875rem; margin: 0.25rem 0 0.5rem; }
+.devlog-teaser__all { margin-top: 2rem; }
+
+.signup__form { display: grid; gap: 0.75rem; }
+.signup__row { display: flex; flex-direction: column; gap: 0.75rem; }
+.signup input[type="email"] {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+  background: var(--field);
+  border: 2px solid var(--hint);   /* 6.1:1 against black: well over the 3:1 a field edge needs */
+  border-radius: 0;
+  color: var(--ink);
+}
+.signup input[type="email"]:disabled { opacity: 0.5; }
+
+/* ---- footer ---- */
+.site-footer {
+  margin-top: var(--space);
+  padding-block: 2.5rem 3rem;
+  border-top: 1px solid var(--rule);
+  color: var(--hint);
   font-size: 0.875rem;
 }
+.site-footer__inner { display: grid; gap: 1rem; }
+.site-footer__nav a { text-transform: uppercase; letter-spacing: 0.2em; }
 
 /* ---- motion ---- */
 @media (prefers-reduced-motion: reduce) {
@@ -127,7 +285,20 @@ main:focus { outline: none; }  /* the skip link's target, focused by script-free
   }
 }
 
+/* ---- wider screens ---- */
+@media (min-width: 30rem) {
+  .hero__actions { flex-direction: row; flex-wrap: wrap; justify-content: center; max-width: none; }
+  .signup__row { flex-direction: row; }
+  .signup__row input { flex: 1; }
+}
+
 @media (min-width: 48rem) {
   :root { --gutter: 2rem; }
   h1 { font-size: 1.75rem; }
+  .hero { padding-top: 3rem; }
+  .hero__art img { max-width: min(100%, 75rem); max-height: min(68vh, 37.5rem); }
+  .pitch p { font-size: 1.5rem; }
+  .features { grid-template-columns: 1fr 1fr; gap: 4rem 5rem; }
+  .feature--media { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  .feature--media:nth-child(even) .feature__media { order: -1; }
 }

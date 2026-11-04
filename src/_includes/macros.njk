@@ -1,0 +1,39 @@
+{#- Shared bits of markup. Import with: {% import "macros.njk" as ui %} -#}
+
+{#- A dashed TODO marker for a setting that is empty in site.json. Templates only call it under `npm start`
+    (eleventy.env.runMode == "serve"); a build hides the empty thing instead. -#}
+{% macro todo(setting) -%}
+<span class="todo">TODO: set <code>{{ setting }}</code> in site.json</span>
+{%- endmacro %}
+
+{#- A button-shaped TODO, so the hero shows its full row of buttons while settings are empty. -#}
+{% macro todoButton(label, setting) -%}
+<span class="btn btn--todo">{{ label }} <small>TODO: set <code>{{ setting }}</code></small></span>
+{%- endmacro %}
+
+{#- One of the four blocks on the home page. Its text comes from the caller; `media`, when given, adds a
+    picture beside it:
+      { src, width, height, alt }               a still WebP
+      { src, width, height, alt, video }        a looping clip (MP4), with the still as its poster.
+        The clip plays muted and loops, and keeps the browser's own controls so anyone can pause it
+        (WCAG 2.2.2). Under reduced motion the clip is hidden and the still shows instead.
+    With no media the block is text only. -#}
+{% macro feature(id, title, media) -%}
+<article class="feature{% if media %} feature--media{% endif %}" aria-labelledby="feature-{{ id }}">
+  <div class="feature__text">
+    <h2 id="feature-{{ id }}">{{ title }}</h2>
+    {{ caller() }}
+  </div>
+  {%- if media %}
+  <figure class="feature__media">
+    {%- if media.video %}
+    <video class="feature__video" src="{{ media.video }}" poster="{{ media.src }}" width="{{ media.width }}" height="{{ media.height }}"
+      autoplay muted loop playsinline controls aria-label="{{ media.alt }}"></video>
+    <img class="feature__still" src="{{ media.src }}" width="{{ media.width }}" height="{{ media.height }}" alt="{{ media.alt }}" loading="lazy" decoding="async">
+    {%- else %}
+    <img src="{{ media.src }}" width="{{ media.width }}" height="{{ media.height }}" alt="{{ media.alt }}" loading="lazy" decoding="async">
+    {%- endif %}
+  </figure>
+  {%- endif %}
+</article>
+{%- endmacro %}
