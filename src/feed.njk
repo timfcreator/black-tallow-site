@@ -2,33 +2,35 @@
 permalink: /devlog/feed.xml
 eleventyExcludeFromCollections: true
 ---
-{#- The devlog as an Atom feed. Feed readers need full addresses, so links are built from site.json's
-    domain; until a domain is set they point at the local preview. -#}
-{%- set base = ("https://" + site.domain + "/") if site.domain else "http://localhost:8090/" -%}
+{#- The devlog as an Atom feed. Feed readers need full addresses, built from siteUrl (src/_data/siteUrl.js):
+    the domain, else the address GitHub Pages reports, else the local preview. Addresses are joined as text
+    (siteUrl + page path) so a subfolder in siteUrl, like https://user.github.io/repo, is kept. -#}
+{%- set base = siteUrl or "http://localhost:8090" -%}
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ site.language }}">
   <title>{{ site.name }} devlog</title>
   <subtitle>{{ site.tagline }}</subtitle>
-  <link href="{{ '/devlog/feed.xml' | absoluteUrl(base) }}" rel="self" type="application/atom+xml"/>
-  <link href="{{ '/devlog/' | absoluteUrl(base) }}" rel="alternate" type="text/html"/>
-  <id>{{ '/devlog/' | absoluteUrl(base) }}</id>
+  <link href="{{ base }}/devlog/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="{{ base }}/devlog/" rel="alternate" type="text/html"/>
+  <id>{{ "devlog" | stableId }}</id>
   <updated>{{ collections.posts | getNewestCollectionItemDate(page.date) | dateToRfc3339 }}</updated>
   <author>
     <name>{{ site.companyName or site.name }}</name>
   </author>
-  <icon>{{ '/icon-192.png' | absoluteUrl(base) }}</icon>
+  <icon>{{ base }}/icon-192.png</icon>
   {%- for post in collections.posts | head(20) %}
-  {%- set postUrl = post.url | absoluteUrl(base) %}
+  {%- set postUrl = base + post.url %}
   <entry>
     <title>{{ post.data.title }}</title>
     <link href="{{ postUrl }}" rel="alternate" type="text/html"/>
-    <id>{{ postUrl }}</id>
+    <id>{{ ("devlog/" + post.page.fileSlug) | stableId }}</id>
     <published>{{ post.date | dateToRfc3339 }}</published>
     <updated>{{ post.date | dateToRfc3339 }}</updated>
     <summary>{{ post.data.summary }}</summary>
-    {#- The post's top picture lives in its layout, so it is added here for feed readers. #}
+    {#- The post's top picture lives in its layout, so it is added here for feed readers. renderTransforms
+        turns pictures into WebP and adds any subfolder; htmlToAbsoluteUrls then makes every address full. #}
     {%- set body %}{% if post.data.image %}<p><img src="{{ post.data.image }}" alt="{{ post.data.imageAlt }}"></p>{% endif %}{{ post.content | safe }}{% endset %}
-    <content type="html">{{ body | renderTransforms(post.data.page, base) | htmlToAbsoluteUrls(postUrl) }}</content>
+    <content type="html">{{ body | renderTransforms(post.data.page, base + "/") | htmlToAbsoluteUrls(postUrl) }}</content>
   </entry>
   {%- endfor %}
 </feed>

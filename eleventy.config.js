@@ -1,6 +1,7 @@
 // Eleventy configuration for the Black Tallow website.
 // Source in src/, output in _site/. Templates are Nunjucks (.njk) and Markdown (.md).
 
+import { createHash } from "node:crypto";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import pluginRss from "@11ty/eleventy-plugin-rss";
 
@@ -18,6 +19,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets/fonts");
   eleventyConfig.addPassthroughCopy("src/assets/css");
   eleventyConfig.addPassthroughCopy("src/assets/img");
+  eleventyConfig.addPassthroughCopy("src/assets/video");   // looping clips for the home page's blocks
   // favicon.ico, apple-touch-icon.png and the manifest icons live at the site root.
   eleventyConfig.addPassthroughCopy({ "src/assets/icons/*": "/" });
   // src/assets/art/ holds the PNG exports `npm run images` reads; they are never published.
@@ -71,6 +73,14 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("readableDate", (date) => longDate.format(date));
   eleventyConfig.addFilter("isoDate", (date) => date.toISOString().slice(0, 10));
   eleventyConfig.addFilter("head", (list, n) => (Array.isArray(list) ? list.slice(0, n) : []));
+
+  // A feed entry's id must never change, or feed readers show the post again as new. Built from the name alone
+  // (a name-based UUID), it survives the move from the github.io address to the domain.
+  eleventyConfig.addFilter("stableId", (name) => {
+    const h = createHash("sha1").update(`black-tallow:${name}`).digest("hex");
+    const variant = ((parseInt(h[16], 16) & 0x3) | 0x8).toString(16);
+    return `urn:uuid:${h.slice(0, 8)}-${h.slice(8, 12)}-5${h.slice(13, 16)}-${variant}${h.slice(17, 20)}-${h.slice(20, 32)}`;
+  });
 }
 
 export const config = {

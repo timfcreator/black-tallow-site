@@ -2,12 +2,14 @@
 permalink: /site.webmanifest
 eleventyExcludeFromCollections: true
 ---
+{#- Icon paths are relative to this file (at the site root), so they also work when the site is in a subfolder:
+    the HTML base plugin rewrites pages, not JSON. -#}
 {
   "name": {{ site.name | dump | safe }},
   "short_name": {{ site.name | dump | safe }},
   "icons": [
-    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
   ],
   "theme_color": "#000000",
   "background_color": "#000000"

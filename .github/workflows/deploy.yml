@@ -1,0 +1,68 @@
+# Builds the site and publishes it to GitHub Pages on every push to main (and on demand from the Actions tab).
+# The repository's Settings > Pages > Source must be "GitHub Actions".
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Only what publishing to Pages needs.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; a newer push waits for the running one instead of cancelling it.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      # Reports where Pages serves the site: base_url is the full address and base_path the subfolder
+      # ("" once a custom domain is connected, "/<repo>" before that).
+      - name: Read the Pages address
+        id: pages
+        uses: actions/configure-pages@v6
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Build
+        run: npx @11ty/eleventy --pathprefix="${{ steps.pages.outputs.base_path }}/"
+        env:
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+
+      - name: Check internal links
+        run: node scripts/check-links.mjs _site
+        env:
+          PATH_PREFIX: ${{ steps.pages.outputs.base_path }}/
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+
+      - name: Upload the built site
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -6,7 +6,8 @@
 
 @font-face {
   font-family: "Montserrat";
-  src: url("/assets/fonts/montserrat/Montserrat-SemiBold-latin.woff2") format("woff2");
+  /* Relative to this file, so it still works when the site is served from a subfolder. */
+  src: url("../fonts/montserrat/Montserrat-SemiBold-latin.woff2") format("woff2");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -20,7 +21,7 @@
   --hint: #8a8a8a;     /* dates and captions (the guide's hint grey): 6.1:1 */
   --rule: #2e2e2e;     /* hairlines; decoration only, never text */
   --field: #0e0e0e;    /* form field fill */
-  --todo: #f2b84b;     /* TODO markers, shown only under `npm start` */
+  --todo: #f2b84b;     /* TODO markers: settings ones under `npm start` only; the About and privacy ones always */
 
   --font: "Montserrat", "Segoe UI", Arial, sans-serif;
   --gutter: 1rem;      /* 16 px side gutter on phones */

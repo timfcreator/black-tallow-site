@@ -27,3 +27,10 @@ file of it is published. The licence does not restrict documents and images made
 | `og-image.png` | 1200 × 630 | `src/assets/img/og-image.png` (the link preview) | as above |
 | `candle.png` | 512 × 512 | `src/assets/icons/`: `favicon.ico`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png` | as above |
 | `candle-32.png` (optional) | 32 × 32 | `favicon.ico`, when present | as above |
+
+| Other images | What | Licence |
+|---|---|---|
+| `src/devlog/img/example-candle.png` | The candle at 400 × 400, used only by the example post (a draft, never published) | Original Black Tallow art, all rights reserved |
+
+Pictures added to posts (`src/devlog/img/`) and to the home page's blocks (`src/assets/img/`, `src/assets/video/`)
+belong in these tables too, with where they came from.

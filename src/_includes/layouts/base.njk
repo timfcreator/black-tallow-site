@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  {%- set baseUrl = ("https://" + site.domain) if site.domain else "" %}
+  {#- siteUrl (src/_data/siteUrl.js): the domain, else the address GitHub Pages reports, else nothing. #}
+  {%- set baseUrl = siteUrl if siteUrl.indexOf("http://localhost") != 0 else "" %}
   {%- set fullTitle = (title + " | " + site.name) if title else (site.name + " | " + site.tagline) %}
   {%- set desc = summary or description or site.description %}
   {%- set og = ogImage or images["og-image"] %}
@@ -35,7 +36,7 @@
   <meta name="twitter:title" content="{{ title or site.name }}">
   <meta name="twitter:description" content="{{ desc }}">
   {%- if baseUrl %}
-  {#- Link previews need absolute URLs, so they wait for a domain in site.json. #}
+  {#- Link previews need absolute URLs, so they wait for a published address. #}
   <meta property="og:url" content="{{ baseUrl }}{{ page.url }}">
   <meta property="og:image" content="{{ baseUrl }}{{ og.src }}">
   <meta property="og:image:width" content="{{ og.width }}">
