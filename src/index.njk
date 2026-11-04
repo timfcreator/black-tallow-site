@@ -1,0 +1,10 @@
+---
+layout: layouts/base.njk
+hideHeader: true
+---
+{#- Chunk 1: an empty home page that proves the build, the font and the art. Chunk 2 builds the real one. -#}
+{%- set wm = images.wordmark[0] %}
+<div class="wrap" style="padding-block: 6rem; display: grid; justify-items: center; gap: 2rem; text-align: center;">
+  <h1 style="width: 100%;"><img src="{{ wm.src }}" width="{{ wm.width }}" height="{{ wm.height }}" alt="Black Tallow" style="width: min(100%, 26rem); margin-inline: auto;"></h1>
+  <p class="label">{{ site.tagline }}</p>
+</div>

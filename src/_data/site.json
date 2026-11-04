@@ -1,0 +1,22 @@
+{
+  "_help": "Every link and ID the site uses. Leave a value empty (\"\") and the site hides whatever uses it. README.md, 'Settings', explains each one.",
+  "name": "Black Tallow",
+  "tagline": "Bleed the dark, come back heavy.",
+  "description": "Roll a character, load the cart and take your party down into the dark. Fight with real blades, take what you can carry, and decide what to do when you meet another party.",
+  "language": "en-AU",
+  "domain": "",
+  "discordInvite": "",
+  "emailProvider": "",
+  "emailFormAction": "",
+  "social": {
+    "bluesky": "",
+    "youtube": "",
+    "reddit": "",
+    "itch": ""
+  },
+  "contactEmail": "",
+  "companyName": "",
+  "abn": "",
+  "cloudflareAnalyticsToken": "",
+  "steamUrl": ""
+}

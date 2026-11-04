@@ -1,0 +1,10 @@
+{#- The small header on every page but home (the home page's hero carries the wordmark). -#}
+{%- set wm = images.wordmark[0] %}
+<header class="site-header">
+  <a class="site-header__home" href="/">
+    <img src="{{ wm.src }}" width="{{ wm.width }}" height="{{ wm.height }}" alt="Black Tallow, home">
+  </a>
+  <nav class="site-header__nav" aria-label="Main">
+    <a href="/devlog/">Devlog</a>
+  </nav>
+</header>

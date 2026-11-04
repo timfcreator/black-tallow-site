@@ -1,0 +1,133 @@
+/* Black Tallow — the site's one stylesheet.
+   White text on black (the art's own background, #000). The text roles follow the game's style guide
+   (GDD 52 UI, "Menu text"): headings, small-caps labels and body, all in Montserrat SemiBold here, since
+   the game's blackletter heading face is not used on the web. Mobile first: the base rules are for
+   phones, and min-width queries widen the layout. */
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/assets/fonts/montserrat/Montserrat-SemiBold-latin.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg: #000;          /* page */
+  --ink: #fff;         /* headings, links, buttons */
+  --text: #e6e6e6;     /* body text: 16.6:1 on black */
+  --label: #9a9a9a;    /* small-caps labels (the guide's subheading grey): 7.5:1 */
+  --hint: #8a8a8a;     /* dates and captions (the guide's hint grey): 6.1:1 */
+  --rule: #2e2e2e;     /* hairlines; decoration only, never text */
+
+  --font: "Montserrat", "Segoe UI", Arial, sans-serif;
+  --measure: 38rem;    /* a comfortable line length for reading */
+  --gutter: 1rem;      /* 16 px side gutter on phones */
+  --space: clamp(4rem, 12vw, 9rem);  /* the empty space between home sections */
+}
+
+/* ---- reset ---- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body, h1, h2, h3, h4, p, figure, blockquote, ul, ol, dl, dd { margin: 0; }
+img, picture, video { display: block; max-width: 100%; height: auto; }
+input, button, textarea, select { font: inherit; color: inherit; }
+
+/* ---- base ---- */
+html { background: var(--bg); color-scheme: dark; }
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 1.0625rem;  /* 17 px: Montserrat SemiBold reads large */
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+strong, b { font-weight: 600; color: var(--ink); }
+
+/* Headings: spaced capitals, white. Sizes stay modest; the art is the loud thing on the page. */
+h1, h2, h3, h4 {
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+h1 { font-size: 1.5rem; }
+h2 { font-size: 1.125rem; }
+h3 { font-size: 1rem; }
+
+/* A small-caps label: the style guide's subheading role. */
+.label {
+  color: var(--label);
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+/* Links are underlined everywhere, so they never depend on colour or hover to be found. */
+a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+a:hover { text-decoration-thickness: 2px; }
+
+/* One visible focus style for everything that takes focus. */
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+main:focus { outline: none; }  /* the skip link's target, focused by script-free anchor jump */
+
+/* ---- skip link ---- */
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: 0;
+  z-index: 10;
+  padding: 0.5rem 1rem;
+  background: var(--ink);
+  color: var(--bg);
+  transform: translateY(-120%);
+}
+.skip-link:focus { transform: none; }
+
+/* ---- helpers ---- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+.wrap { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: var(--gutter); }
+
+/* ---- site header (every page but home) ---- */
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding: 1.5rem var(--gutter);
+}
+.site-header__home { display: block; text-decoration: none; }
+.site-header__home img { width: 10rem; }
+.site-header__nav a {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.875rem;
+}
+
+/* ---- motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (min-width: 48rem) {
+  :root { --gutter: 2rem; }
+  h1 { font-size: 1.75rem; }
+}

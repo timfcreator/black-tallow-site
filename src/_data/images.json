@@ -1,0 +1,44 @@
+{
+  "hero-wide": [
+    {
+      "src": "/assets/img/hero-wide-1200.webp",
+      "width": 1200,
+      "height": 600,
+      "bytes": 25372
+    },
+    {
+      "src": "/assets/img/hero-wide-2400.webp",
+      "width": 2400,
+      "height": 1200,
+      "bytes": 41116
+    }
+  ],
+  "hero-stacked": [
+    {
+      "src": "/assets/img/hero-stacked-540.webp",
+      "width": 540,
+      "height": 675,
+      "bytes": 20998
+    },
+    {
+      "src": "/assets/img/hero-stacked-1080.webp",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 43472
+    }
+  ],
+  "wordmark": [
+    {
+      "src": "/assets/img/wordmark-695.webp",
+      "width": 695,
+      "height": 234,
+      "bytes": 2866
+    }
+  ],
+  "og-image": {
+    "src": "/assets/img/og-image.png",
+    "width": 1200,
+    "height": 630,
+    "bytes": 23428
+  }
+}
