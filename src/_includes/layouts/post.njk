@@ -1,0 +1,25 @@
+---
+layout: layouts/base.njk
+---
+{#- One devlog post. Front matter: title, date, summary, optional image + imageAlt, optional draft. -#}
+<article class="post wrap wrap--narrow">
+  <header class="post__header">
+    <p class="post__date label">
+      <time datetime="{{ page.date | isoDate }}">{{ page.date | readableDate }}</time>
+      {%- if draft %} <span class="todo">Draft: not in the build</span>{% endif %}
+    </p>
+    <h1 class="post__title">{{ title }}</h1>
+    <p class="post__summary">{{ summary }}</p>
+  </header>
+  {%- if image %}
+  <figure class="post__image">
+    <img src="{{ image }}" alt="{{ imageAlt }}" loading="eager" fetchpriority="high">
+  </figure>
+  {%- endif %}
+  <div class="prose">
+    {{ content | safe }}
+  </div>
+  <footer class="post__footer">
+    <a href="/devlog/">All posts</a>
+  </footer>
+</article>

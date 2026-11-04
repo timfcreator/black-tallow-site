@@ -265,6 +265,76 @@ main:focus { outline: none; }  /* the skip link's target */
 }
 .signup input[type="email"]:disabled { opacity: 0.5; }
 
+/* ---- inner pages: devlog list, privacy, 404 ---- */
+.page { padding-top: clamp(2rem, 6vw, 4rem); }
+.page h1 { margin-bottom: 0.5rem; }
+.page__sub { margin-bottom: 3rem; }
+.page .post-list__title { font-size: 1.0625rem; }
+.page--404 { padding-top: clamp(4rem, 14vw, 9rem); }
+.page--404 p { margin-top: 1rem; }
+.page--404 .btn { margin-top: 1.5rem; }
+.site-header__nav a[aria-current="page"] { text-decoration-thickness: 2px; }
+
+/* ---- a devlog post ---- */
+.post { padding-top: clamp(2rem, 6vw, 4rem); }
+.post__header { margin-bottom: 2.5rem; }
+.post__date { margin-bottom: 0.75rem; }
+/* Post titles are read, not glanced at: normal case, larger, tighter tracking than the site's labels. */
+.post__title {
+  font-size: clamp(1.625rem, 5vw, 2.25rem);
+  line-height: 1.2;
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+.post__summary { margin-top: 1rem; color: var(--label); font-size: 1.125rem; }
+.post__image { margin-bottom: 2.5rem; }
+/* Pictures show at their own size up to the column's width; a small one is never stretched (and blurred). */
+.post__image img { max-width: 100%; }
+.post__footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
+
+/* ---- reading text (posts and the privacy note) ----
+   About 65 characters a line at 38rem; real heading levels in normal case. */
+.prose > * + * { margin-top: 1.25rem; }
+.prose h2, .prose h3 {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+.prose h2 { font-size: 1.375rem; margin-top: 3rem; }
+.prose h3 { font-size: 1.125rem; margin-top: 2.25rem; }
+.prose h2 + *, .prose h3 + * { margin-top: 0.75rem; }
+.prose ul, .prose ol { padding-left: 1.4rem; }
+.prose li + li { margin-top: 0.4rem; }
+.prose img { max-width: 100%; }
+.prose blockquote {
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--label);
+  color: var(--ink);
+}
+.prose :not(pre) > code {
+  padding: 0.1em 0.35em;
+  background: #1a1a1a;
+  border-radius: 2px;
+}
+.prose pre {
+  overflow-x: auto;
+  padding: 1rem 1.25rem;
+  background: #111;
+  border: 1px solid var(--rule);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  -webkit-overflow-scrolling: touch;
+}
+.prose pre code { font-size: inherit; }
+.prose hr { border: 0; border-top: 1px solid var(--rule); margin-block: 2.5rem; }
+.figure figcaption, .prose figcaption {
+  margin-top: 0.6rem;
+  color: var(--hint);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.prose-page .prose > .todo-text:first-child { margin-bottom: 2rem; }
+
 /* ---- footer ---- */
 .site-footer {
   margin-top: var(--space);

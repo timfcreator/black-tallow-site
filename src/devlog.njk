@@ -1,0 +1,15 @@
+---
+layout: layouts/base.njk
+title: Devlog
+permalink: /devlog/
+---
+<div class="page wrap wrap--narrow">
+  <h1>Devlog</h1>
+  <p class="hint page__sub"><a href="/devlog/feed.xml">Atom feed</a> for your feed reader.</p>
+  {%- if collections.posts.length %}
+  {%- set posts = collections.posts %}{% set headingLevel = 2 %}
+  {% include "partials/post-list.njk" %}
+  {%- else %}
+  <p class="muted">No posts yet.</p>
+  {%- endif %}
+</div>

@@ -2,9 +2,9 @@
 {%- set wm = images.wordmark[0] %}
 <header class="site-header">
   <a class="site-header__home" href="/">
-    <img src="{{ wm.src }}" width="{{ wm.width }}" height="{{ wm.height }}" alt="Black Tallow, home">
+    <img src="{{ wm.src }}" width="{{ wm.width }}" height="{{ wm.height }}" alt="Black Tallow, home" eleventy:ignore>
   </a>
   <nav class="site-header__nav" aria-label="Main">
-    <a href="/devlog/">Devlog</a>
+    <a href="/devlog/"{% if page.url == "/devlog/" %} aria-current="page"{% endif %}>Devlog</a>
   </nav>
 </header>

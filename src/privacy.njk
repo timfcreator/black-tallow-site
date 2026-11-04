@@ -1,0 +1,60 @@
+---
+layout: layouts/base.njk
+title: Privacy
+permalink: /privacy/
+updated: 2026-11-04
+---
+{%- import "macros.njk" as ui -%}
+{%- set serve = eleventy.env.runMode == "serve" -%}
+<!-- TODO: user to check -->
+<div class="page prose-page wrap wrap--narrow">
+  <h1>Privacy</h1>
+  <p class="hint page__sub">Updated <time datetime="{{ updated | isoDate }}">{{ updated | readableDate }}</time></p>
+  <div class="prose">
+    <p class="todo-text">TODO: user to check this note before the site goes live.</p>
+
+    <p>The short version: this site sets no cookies, does not follow you around the web, and nothing about you is sold.</p>
+
+    <h2>Visiting the site</h2>
+    <p>The site is hosted on GitHub Pages. GitHub keeps server logs, including your IP address, to run and protect the service. See <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>.</p>
+
+    <h2>Analytics</h2>
+    {%- if site.cloudflareAnalyticsToken or serve %}
+    {%- if not site.cloudflareAnalyticsToken %}<p>{{ ui.todo("cloudflareAnalyticsToken") }}: without it, a build says "This site does not use analytics." instead of the paragraph below.</p>{% endif %}
+    <p>Visits are counted with Cloudflare Web Analytics. It is cookieless: it stores nothing on your device and does not identify you. It records which pages are viewed, the site that sent you here, how quickly pages load, and your browser, device type and country. See <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare's privacy policy</a>.</p>
+    {%- else %}
+    <p>This site does not use analytics.</p>
+    {%- endif %}
+
+    {%- if email.action or serve %}
+    <h2>The email list</h2>
+    {%- if not email.action %}<p>{{ ui.todo("emailFormAction") }}: without it, a build leaves this section out.</p>{% endif %}
+    <p>If you sign up, your email address is kept by {{ email.provider or "our email provider" }}, which sends the emails. It is used only to send news about {{ site.name }}. Like most email services, {{ email.provider or "it" }} may record whether an email was opened and which links in it were clicked. Anyone can unsubscribe from any email, at any time, with the link at the bottom of it.</p>
+    {%- endif %}
+
+    <h2>Nothing is sold</h2>
+    <p>Your information is never sold, rented or handed to anyone for their marketing.</p>
+
+    {#- Name only the other services this site actually links to. #}
+    {%- set elsewhere = [] %}
+    {%- for pair in [["Discord", site.discordInvite], ["Steam", site.steamUrl], ["Bluesky", site.social.bluesky], ["YouTube", site.social.youtube], ["Reddit", site.social.reddit], ["itch.io", site.social.itch]] %}
+    {%- if pair[1] %}{% set elsewhere = (elsewhere.push(pair[0]), elsewhere) %}{% endif %}
+    {%- endfor %}
+    {%- if elsewhere.length %}
+    <h2>Other sites</h2>
+    <p>Links to {{ elsewhere | join(", ") }} take you to services with their own privacy policies.</p>
+    {%- elif serve %}
+    <h2>Other sites</h2>
+    <p>{{ ui.todo("discordInvite") }}, <code>steamUrl</code> or a <code>social</code> link: this section names whichever are set, and a build leaves it out when none are.</p>
+    {%- endif %}
+
+    {%- if site.contactEmail or serve %}
+    <h2>Questions</h2>
+    {%- if site.contactEmail %}
+    <p>Write to <a href="mailto:{{ site.contactEmail }}">{{ site.contactEmail }}</a>. You can ask what is held about you, or ask for it to be deleted.</p>
+    {%- else %}
+    <p>{{ ui.todo("contactEmail") }}: without it, a build leaves this section out.</p>
+    {%- endif %}
+    {%- endif %}
+  </div>
+</div>

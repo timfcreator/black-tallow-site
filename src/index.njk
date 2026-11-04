@@ -19,7 +19,7 @@ hideHeader: true
         srcset="{{ tall[0].src }} {{ tall[0].width }}w, {{ tall[1].src }} {{ tall[1].width }}w"
         sizes="(min-width: 32rem) 30rem, calc(100vw - 2rem)"
         width="{{ tall[1].width }}" height="{{ tall[1].height }}"
-        alt="Black Tallow" fetchpriority="high">
+        alt="Black Tallow" fetchpriority="high" eleventy:ignore>
     </picture>
   </h1>
   <p class="hero__tagline">{{ site.tagline }}</p>
@@ -75,15 +75,8 @@ hideHeader: true
 <section class="devlog-teaser wrap wrap--narrow" aria-labelledby="devlog-heading">
   <h2 id="devlog-heading">Devlog</h2>
   {%- if latest.length %}
-  <ol class="post-list" role="list">
-    {%- for post in latest %}
-    <li class="post-list__item">
-      <h3 class="post-list__title"><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
-      <p class="post-list__date"><time datetime="{{ post.date | isoDate }}">{{ post.date | readableDate }}</time>{% if post.data.draft %} <span class="todo">draft, hidden in the build</span>{% endif %}</p>
-      <p>{{ post.data.summary }}</p>
-    </li>
-    {%- endfor %}
-  </ol>
+  {%- set posts = latest %}{% set headingLevel = 3 %}
+  {% include "partials/post-list.njk" %}
   <p class="devlog-teaser__all"><a href="/devlog/">All posts</a></p>
   {%- else %}
   <p class="todo-text">No posts yet: under <code>npm start</code> only. A build leaves this section out until the first post.</p>

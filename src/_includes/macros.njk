@@ -29,9 +29,9 @@
     {%- if media.video %}
     <video class="feature__video" src="{{ media.video }}" poster="{{ media.src }}" width="{{ media.width }}" height="{{ media.height }}"
       autoplay muted loop playsinline controls aria-label="{{ media.alt }}"></video>
-    <img class="feature__still" src="{{ media.src }}" width="{{ media.width }}" height="{{ media.height }}" alt="{{ media.alt }}" loading="lazy" decoding="async">
+    <img class="feature__still" src="{{ media.src }}" width="{{ media.width }}" height="{{ media.height }}" alt="{{ media.alt }}" loading="lazy" decoding="async" eleventy:ignore>
     {%- else %}
-    <img src="{{ media.src }}" width="{{ media.width }}" height="{{ media.height }}" alt="{{ media.alt }}" loading="lazy" decoding="async">
+    <img src="{{ media.src }}" width="{{ media.width }}" height="{{ media.height }}" alt="{{ media.alt }}" loading="lazy" decoding="async" eleventy:ignore>
     {%- endif %}
   </figure>
   {%- endif %}
