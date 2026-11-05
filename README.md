@@ -81,7 +81,7 @@ it is secret. That includes the Cloudflare token, which is in every page by desi
 |---|---|---|
 | `name`, `tagline` | The game's name and tagline. | Page titles, the home page, the feed. |
 | `description` | One or two sentences. | Search results and link previews. |
-| `domain` | The bare domain, like `blacktallow.com` (no `https://`). | The `CNAME` file, and full addresses when you build on your own machine. Once the domain is connected on GitHub, the published site uses it automatically. |
+| `domain` | The bare domain, `blacktallowgame.com` (no `https://`). | The `CNAME` file, and full addresses when you build on your own machine. Once the domain is connected on GitHub, the published site uses it automatically. |
 | `discordInvite` | A Discord invite link set to **never expire**, like `https://discord.gg/abc123`. | The hero's Join the Discord button, the footer. |
 | `emailFormAction` | Your signup form's address. **Buttondown:** `https://buttondown.com/api/emails/embed-subscribe/<your username>`. **Kit:** `https://app.kit.com/forms/<form number>/subscriptions`. The site works out which provider it is from the address. | The Get updates by email button and section, the privacy note. |
 | `social.bluesky`, `.youtube`, `.reddit`, `.itch` | The full address of each profile, like `https://bsky.app/profile/blacktallow.bsky.social`. | The footer, the privacy note. |
@@ -159,12 +159,15 @@ it shows a green tick, the site is live at `https://timfcreator.github.io/black-
 **4. Verify the domain with GitHub.** GitHub recommends doing this before step 6, because it stops anyone else
 attaching your domain to their own GitHub site. Your picture, then **Settings > Pages** (in the left-hand list,
 under "Code, planning, and automation"). Click **Add a domain** and enter the domain. GitHub shows a TXT record:
-add it at your registrar (step 5 explains where), wait a few minutes, then click **Verify**. GitHub shows the
-record's name as `_github-pages-challenge-timfcreator.blacktallow.com`; most registrars want only the part
-before your domain (`_github-pages-challenge-timfcreator`) in the name box, because they add the domain
-themselves.
+add it in Cloudflare (step 5 explains where), wait a few minutes, then click **Verify**. GitHub shows the
+record's name as `_github-pages-challenge-timfcreator.blacktallowgame.com`; Cloudflare wants only the part
+before your domain (`_github-pages-challenge-timfcreator`) in the **Name** box, because it adds the domain
+itself.
 
-**5. Point the domain at GitHub.** At your domain registrar, in the DNS settings for the domain:
+**5. Point the domain at GitHub.** The domain's DNS is managed by Cloudflare (its nameservers are Cloudflare's),
+so the records go there: Cloudflare dashboard > `blacktallowgame.com` > **DNS > Records > Add record**.
+For each record below, set **Proxy status** to **DNS only** (the grey cloud, not the orange one). A proxied
+record stops GitHub issuing the site's HTTPS certificate.
 
 | Type | Name (host) | Value |
 |---|---|---|
@@ -174,19 +177,21 @@ themselves.
 | A | `@` | `185.199.111.153` |
 | CNAME | `www` | `timfcreator.github.io` |
 
-Delete any other A, AAAA or ALIAS records on `@`, such as a registrar's parking page. Optionally, add four AAAA
+Leave the email records (MX and TXT) that Cloudflare Email Routing or Buttondown add; they don't clash with these.
+Delete any other A, AAAA or CNAME record on `@`, such as a parking page. Optionally, add four AAAA
 records on `@` as well (`2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`,
 `2606:50c0:8003::153`) so visitors on IPv6 connect directly. DNS changes can take from minutes to a day.
 
 **6. Connect the domain.** In the repository: **Settings > Pages > Custom domain**. Enter the domain without
-`www` (`blacktallow.com`) and click **Save**. Wait until it says the DNS check succeeded.
+`www` (`blacktallowgame.com`) and click **Save**. Wait until it says the DNS check succeeded.
 
 **7. Turn on HTTPS.** On the same page, tick **Enforce HTTPS**. If the box is greyed out, GitHub is still
 issuing the certificate. Come back in an hour; it can take up to a day. Until then a browser may warn that the
 site is not secure when you open it on the domain. That is expected and goes away once the box is ticked.
 
-**8. Put the domain in `site.json`.** Set `domain`, then commit and push. From now on every address the site
-gives out (link previews, the feed, search results) uses the domain.
+**8. Check the domain is in `site.json`.** `domain` is already set to `blacktallowgame.com`. Push once more
+after step 7, so every address the site gives out (link previews, the feed, search results) is rebuilt on the
+domain with `https`.
 
 ## How publishing works
 

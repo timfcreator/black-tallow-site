@@ -4,18 +4,18 @@
   "tagline": "Bleed the dark, come back heavy.",
   "description": "Roll a character, load the cart and take your party down into the dark. Fight with real blades, take what you can carry, and decide what to do when you meet another party.",
   "language": "en-AU",
-  "domain": "",
-  "discordInvite": "",
-  "emailFormAction": "",
+  "domain": "blacktallowgame.com",
+  "discordInvite": "https://discord.gg/69Xvn2Pub",
+  "emailFormAction": "https://buttondown.com/api/emails/embed-subscribe/blacktallowgame",
   "social": {
     "bluesky": "",
-    "youtube": "",
-    "reddit": "",
-    "itch": ""
+    "youtube": "https://www.youtube.com/@BlackTallowGame",
+    "reddit": "https://www.reddit.com/r/BlackTallow/",
+    "itch": "https://black-tallow.itch.io/"
   },
-  "contactEmail": "",
+  "contactEmail": "info@blacktallowgame.com",
   "companyName": "",
   "abn": "",
-  "cloudflareAnalyticsToken": "",
+  "cloudflareAnalyticsToken": "5398f5eec05d4fe3a92e257f1d71707b",
   "steamUrl": ""
 }

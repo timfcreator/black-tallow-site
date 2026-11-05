@@ -47,7 +47,8 @@
   <meta name="twitter:image:alt" content="{{ ogAlt }}">
   {%- endif %}
   {%- if site.cloudflareAnalyticsToken %}
-  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ site.cloudflareAnalyticsToken }}"}'></script>
+  {#- Cloudflare's own snippet, as its dashboard gives it (a module script, so it never blocks the page). #}
+  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ site.cloudflareAnalyticsToken }}"}'></script>
   {%- endif %}
 </head>
 <body>

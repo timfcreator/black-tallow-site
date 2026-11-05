@@ -42,7 +42,8 @@ updated: 2026-11-04
     {%- endfor %}
     {%- if elsewhere.length %}
     <h2>Other sites</h2>
-    <p>Links to {{ elsewhere | join(", ") }} take you to services with their own privacy policies.</p>
+    {%- set named = (elsewhere.slice(0, -1) | join(", ") + " and " + (elsewhere | last)) if elsewhere.length > 1 else elsewhere[0] %}
+    <p>Links to {{ named }} take you to services with their own privacy policies.</p>
     {%- elif serve %}
     <h2>Other sites</h2>
     <p>{{ ui.todo("discordInvite") }}, <code>steamUrl</code> or a <code>social</code> link: this section names whichever are set, and a build leaves it out when none are.</p>
