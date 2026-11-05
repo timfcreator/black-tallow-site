@@ -1,8 +1,8 @@
 {
   "_help": "Every link and ID the site uses. Leave a value empty (\"\") and the site hides whatever uses it. README.md, 'Settings', explains each one.",
   "name": "Black Tallow",
-  "tagline": "Bleed the dark, come back heavy.",
-  "description": "Black Tallow is an old-school co-op dungeon crawler with directional combat, made solo in Australia. Roll a character, hexcrawl across a grim fantasy world with your party, and descend.",
+  "tagline": "Burn low, bleed slow, come back heavy.",
+  "description": "Black Tallow is an old-school co-op dungeon crawler with first-person directional combat, made solo in Australia. Roll a character, explore a grim fantasy world with your party, and descend.",
   "language": "en-AU",
   "domain": "blacktallowgame.com",
   "discordInvite": "https://discord.gg/87QMAqRVka",
