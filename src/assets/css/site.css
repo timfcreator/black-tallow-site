@@ -224,6 +224,7 @@ main:focus { outline: none; }  /* the skip link's target */
   font-size: 1.25rem;
   line-height: 1.6;
 }
+.pitch p + p { margin-top: 1.25rem; }
 
 /* ---- home: the four blocks ----
    Text-only blocks sit in a grid (two across on wider screens). A block given an image spans the full

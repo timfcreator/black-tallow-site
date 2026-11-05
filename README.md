@@ -109,13 +109,13 @@ command wrote (`src/assets/img/`, `src/assets/icons/`, `src/_data/images.json`).
 
 **A picture or clip for one of the four home blocks.** Save it in `src/assets/img/` (WebP, about 1200 px wide)
 and, for a clip, an MP4 in `src/assets/video/`. Then, in `src/index.njk`, give the block a third value. For
-example, change `{% call ui.feature("cart", "The cart") %}` to:
+example, change `{% call ui.feature("blades", "Real blades") %}` to:
 
 ```
-{% call ui.feature("cart", "The cart", { src: "/assets/img/cart.webp", width: 1200, height: 675, alt: "What it shows." }) %}
+{% call ui.feature("blades", "Real blades", { src: "/assets/img/blades.webp", width: 1200, height: 675, alt: "What it shows." }) %}
 ```
 
-For a clip, add `video: "/assets/video/cart.mp4"` inside the braces: the picture becomes its first frame,
+For a clip, add `video: "/assets/video/blades.mp4"` inside the braces: the picture becomes its first frame,
 and it shows instead of the clip for anyone who has asked their system for reduced motion.
 
 ## Going live (one time)

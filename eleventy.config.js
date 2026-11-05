@@ -58,7 +58,9 @@ export default function (eleventyConfig) {
         throw new Error(`${where}: the front matter date (${dated}) and the file name's date (${named[1]}) differ; make them the same`);
       if (d.image && !d.imageAlt) throw new Error(`${where}: an image needs imageAlt (what the image shows)`);
     }
-    return posts.sort((a, b) => b.date - a.date);
+    // Same-day posts: Z to A by file name, so every machine lists them in one order (a folder's own order
+    // differs between Windows and the Linux machine GitHub builds on).
+    return posts.sort((a, b) => b.date - a.date || b.inputPath.localeCompare(a.inputPath));
   });
 
   // {% figure "img/cart.png", "What the image shows", "An optional caption." %}

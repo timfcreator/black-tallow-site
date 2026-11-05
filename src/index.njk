@@ -45,27 +45,24 @@ hideHeader: true
 
 {#- ---------- The pitch (the user's text, as written) ---------- -#}
 <section class="pitch wrap">
-  <p>Roll a character, load the cart and take your party down into the dark. Fight with real blades, take what you can carry, and decide what to do when you meet another party. Characters die for good. The cart rolls on.</p>
+  <p>Black Tallow is an old-school co-op dungeon crawler with directional combat, made solo in Australia. Roll a character, hexcrawl across a grim fantasy world with your party, and descend.</p>
+  <p>Build your character like a tabletop sheet: stats, race, class, background and burdens. Play alone or with up to two friends, and decide what to do when you meet the other parties down there: PvPvE, played the old-school way. Level up, gear up and carve your way through the depths with sword or sorcery. Characters die for good.</p>
 </section>
 
 {#- ---------- Four blocks. Text only for now; pass a media object as the third argument to add a still
      or a looping clip (see macros.njk). ---------- -#}
 <section class="features wrap" aria-label="The game">
-  {% call ui.feature("cart", "The cart") %}
-  <!-- DRAFT -->
-  <p>Your character can die for good. The cart, and what you stashed in it, survives. Every delve starts with the same question: what do you take down?</p>
+  {% call ui.feature("blades", "Real blades") %}
+  <p>Directional melee against the things in the dark. Choose the angle of every swing, and block in the direction each blow comes from. Where your blade lands is where it hits.</p>
   {% endcall %}
   {% call ui.feature("character", "A character you rolled") %}
-  <!-- DRAFT -->
   <p>Roll the stats, then choose race, class, background and burdens. A character sheet you made, for someone who might not come back.</p>
   {% endcall %}
-  {% call ui.feature("blades", "Real blades") %}
-  <!-- DRAFT -->
-  <p>Directional melee against the things in the dark. Where your swing lands is where it hits.</p>
-  {% endcall %}
   {% call ui.feature("map", "The map") %}
-  <!-- DRAFT -->
-  <p>Cross a world written like an old module, then descend beneath a ruined castle. Other parties are down there too.</p>
+  <p>Hexcrawl across a world written like an old module, then descend beneath a ruined castle, where other parties are delving too. Your stash travels in the cart, and it outlives your characters. Every delve starts with the same question: what do you take down?</p>
+  {% endcall %}
+  {% call ui.feature("atmosphere", "After dark") %}
+  <p>Set to a dungeon synth soundtrack, Black Tallow harks back to old-school RPGs and tabletop roleplaying in a basement after dark: dice on the table, a candle burning low, and an ambient tape hissing in the corner.</p>
   {% endcall %}
 </section>
 
@@ -108,6 +105,5 @@ hideHeader: true
 {#- ---------- About ---------- -#}
 <section class="about wrap wrap--narrow" aria-labelledby="about-heading">
   <h2 id="about-heading">About</h2>
-  <!-- TODO: user writes this -->
-  <p class="todo-text">TODO: a paragraph on who makes Black Tallow, that it is made in Australia, and that it is in development.</p>
+  <p>I'm Tom, an Australian solo developer, and Black Tallow is the game I'm making. It's in development: follow along in the <a href="/devlog/">devlog</a>, on the Discord, or by signing up for email updates.</p>
 </section>
