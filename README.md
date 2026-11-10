@@ -92,7 +92,7 @@ it is secret. That includes the Cloudflare token, which is in every page by desi
 
 ## Pictures and art
 
-**The title art is temporary.** It was cut from the Steam capsule art. To replace it, export these PNGs on
+**The title art** is drawn in Aseprite (final art since 2026-11-10). To change it, export these PNGs on
 black, at exactly these sizes, into `src/assets/art/` with these names:
 
 | File | Size | Used for |

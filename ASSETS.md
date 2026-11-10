@@ -16,8 +16,8 @@ file of it is published. The licence does not restrict documents and images made
 
 ## Images
 
-> **TEMPORARY:** the five PNGs in `src/assets/art/` were cut from the Steam capsule art for the first build.
-> Replace each with a final export of the same name and size, then run `npm run images`.
+The five PNGs in `src/assets/art/` are the final title art, drawn in Aseprite (2026-11-10). To change one,
+export a new PNG of the same name and size, then run `npm run images`.
 
 | Source (in `src/assets/art/`) | Size | Published as | Licence |
 |---|---|---|---|
