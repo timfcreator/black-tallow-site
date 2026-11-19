@@ -79,7 +79,8 @@ it is secret. That includes the Cloudflare token, which is in every page by desi
 
 | Setting | What to put in it | Where it shows |
 |---|---|---|
-| `name`, `tagline` | The game's name and tagline. | Page titles, the home page, the feed. |
+| `name` | The game's name. | Page titles, the home page, the feed. |
+| `tagline.secondary`, `tagline.primary` | The tagline's two halves, in the order the full line reads: `secondary` is "Real blades. Black magic.", `primary` is "Gather your party. Come back heavy." | The full line (both halves) under the title on the home page, one half to a line, and in the feed. The primary alone in the home page's browser tab and search results. |
 | `description` | One or two sentences. | Search results and link previews. |
 | `domain` | The bare domain, `blacktallowgame.com` (no `https://`). | The `CNAME` file, and full addresses when you build on your own machine. Once the domain is connected on GitHub, the published site uses it automatically. |
 | `discordInvite` | A Discord invite link set to **never expire**, like `https://discord.gg/abc123`. | The hero's Join the Discord button, the footer. |

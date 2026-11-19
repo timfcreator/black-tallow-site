@@ -22,7 +22,13 @@ hideHeader: true
         alt="Black Tallow" fetchpriority="high" eleventy:ignore>
     </picture>
   </h1>
-  <p class="hero__tagline">{{ site.tagline }}</p>
+  {#- The full tagline, one half to a line: the secondary, then the primary. #}
+  {%- if site.tagline.secondary or site.tagline.primary %}
+  <p class="hero__tagline">
+    {%- if site.tagline.secondary %}<span>{{ site.tagline.secondary }}</span>{% endif %}
+    {% if site.tagline.primary %}<span>{{ site.tagline.primary }}</span>{% endif -%}
+  </p>
+  {%- endif %}
   {#- The first button present is the primary (solid) one: Steam, else Discord, else email. #}
   {%- if site.steamUrl or site.discordInvite or email.action or serve %}
   <div class="hero__actions">

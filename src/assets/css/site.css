@@ -205,6 +205,12 @@ main:focus { outline: none; }  /* the skip link's target */
   text-transform: uppercase;
   letter-spacing: 0.24em;
 }
+/* One half of the tagline to a line. Balanced wrapping breaks a half that is too wide for a phone between its
+   two sentences, the most even split, rather than leaving one word alone. */
+.hero__tagline span {
+  display: block;
+  text-wrap: balance;
+}
 .hero__actions {
   display: flex;
   flex-direction: column;

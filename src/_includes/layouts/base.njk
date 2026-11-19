@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {#- siteUrl (src/_data/siteUrl.js): the domain, else the address GitHub Pages reports, else nothing. #}
   {%- set baseUrl = siteUrl if siteUrl.indexOf("http://localhost") != 0 else "" %}
-  {%- set fullTitle = (title + " | " + site.name) if title else (site.name + " | " + site.tagline) %}
+  {#- The home page's title carries the tagline's primary short form: a stranger sees it first. #}
+  {%- set fullTitle = (title + " | " + site.name) if title else ((site.name + " | " + site.tagline.primary) if site.tagline.primary else site.name) %}
   {%- set desc = summary or description or site.description %}
   {%- set og = ogImage or images["og-image"] %}
   <title>{{ fullTitle }}</title>
